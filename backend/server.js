@@ -11,7 +11,6 @@ const web3 = new Web3(providerUrl);
 const contractAddress = '0x043397eD44B63b8451caD77E9D8AbAD2492821eF'
 
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
-
 const isMintState = async () => {
   const test = await nftContract.methods.whitelistMintState().call()
   return test
@@ -51,18 +50,9 @@ setInterval(async () => {
 
 
 app.get('', async (req, res) => {
-    const now = Date.now();
-    let isMintActive = sessionStorage.getItem('isMintActive');
-    let totalMinted = sessionStorage.getItem('totalMinted');
-    let timestamp = sessionStorage.getItem('timestamp');
-
-    if (!isMintActive || !totalMinted || !timestamp || now - timestamp > 4000) {
-        isMintActive = await client.get('isMintActive');
-        totalMinted = await client.get('total_minted');
-        sessionStorage.setItem('isMintActive', isMintActive);
-        sessionStorage.setItem('totalMinted', totalMinted);
-        sessionStorage.setItem('timestamp', now);
-    }
+    const isMintActive = await client.get('isMintActive');
+    const totalMinted = await client.get('total_minted');
+    res.json({ "is_mint_active": isMintActive, "total_minted": totalMinted});
 });
 
 const port = process.env.PORT || 3002;

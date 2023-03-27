@@ -3,13 +3,9 @@ const cors = require('cors');
 const { createClient } = require('redis');
 const contract = require('../contract/easyzoom.json')
 const Web3 = require('web3')
-//const providerUrl = "https://mainnet.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00"
-const providerUrl = "https://sepolia.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00"
-
+const providerUrl = "https://mainnet.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00"
 const web3 = new Web3(providerUrl);
-//const contractAddress = '0x8bcA6728966bE94907C4339965c45eE03cb25110'
-const contractAddress = '0x043397eD44B63b8451caD77E9D8AbAD2492821eF'
-
+const contractAddress = '0x8bcA6728966bE94907C4339965c45eE03cb25110'
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
 const isMintState = async () => {
   const test = await nftContract.methods.whitelistMintState().call()

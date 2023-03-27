@@ -3,7 +3,7 @@ const cors = require('cors');
 const { createClient } = require('redis');
 const contract = require('../contract/easyzoom.json')
 const Web3 = require('web3')
-const providerUrl = process.env.PROVIDER_URL
+const providerUrl = "https://sepolia.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00"
 const web3 = new Web3(providerUrl);
 const contractAddress = '0x043397eD44B63b8451caD77E9D8AbAD2492821eF'
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
@@ -47,9 +47,18 @@ setInterval(async () => {
 
 
 app.get('', async (req, res) => {
-    const isMintActive = await client.get('isMintActive');
-    const totalMinted = await client.get('total_minted');
-    res.json({ "is_mint_active": isMintActive, "total_minted": totalMinted});
+    const now = Date.now();
+    let isMintActive = sessionStorage.getItem('isMintActive');
+    let totalMinted = sessionStorage.getItem('totalMinted');
+    let timestamp = sessionStorage.getItem('timestamp');
+
+    if (!isMintActive || !totalMinted || !timestamp || now - timestamp > 4000) {
+        isMintActive = await client.get('isMintActive');
+        totalMinted = await client.get('total_minted');
+        sessionStorage.setItem('isMintActive', isMintActive);
+        sessionStorage.setItem('totalMinted', totalMinted);
+        sessionStorage.setItem('timestamp', now);
+    }
 });
 
 const port = process.env.PORT || 3002;

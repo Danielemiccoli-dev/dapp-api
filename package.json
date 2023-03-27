@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc && node src"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

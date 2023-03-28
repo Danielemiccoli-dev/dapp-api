@@ -34,9 +34,7 @@ client.on('error', (err) => {
 client.on('connect', async () => {
     console.log('Connected to Redis');
 });
-(async () => {
-  await client.connect()
-})()
+
 setInterval(async () => {
     const minted = await getTotalMinted()
     const state = await isMintState()

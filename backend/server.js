@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const { createClient } = require('redis');
 const contract = require('../contract/easyzoom.json')
 const Web3 = require('web3')
-const providerUrl = "https://mainnet.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00"
+const providerUrl = 'https://mainnet.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00'
 const web3 = new Web3(providerUrl);
 const contractAddress = '0x8bcA6728966bE94907C4339965c45eE03cb25110'
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
+const client = require('./redis');
+
 const isMintState = async () => {
   const test = await nftContract.methods.whitelistMintState().call()
   return test
@@ -19,21 +20,6 @@ const getTotalMinted = async () => {
 
 const app = express();
 app.use(cors());
-const client = createClient({
-    password: process.env.REDIS_PASS,
-    socket: {
-        host: process.env.REDIS_HOST,
-        port: process.env.REDIS_PORT
-    }
-});
-
-client.on('error', (err) => {
-    console.error('Redis error', err);
-});
-
-client.on('connect', async () => {
-    console.log('Connected to Redis');
-});
 
 setInterval(async () => {
     const minted = await getTotalMinted()

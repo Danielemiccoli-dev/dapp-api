@@ -39,6 +39,7 @@ if (!client.connected) {
 setInterval(async () => {
     const minted = await getTotalMinted()
     const state = await isMintState()
+    console.log('new requests...')
     await client.set('total_minted', minted.toString())
     await client.set('isMintActive', state.toString())
 }, 5000)

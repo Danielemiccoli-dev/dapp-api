@@ -2,8 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/server.js",
+      "src": "backend/redis.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "backend/server.js",
+      "use": "@vercel/static-build"
     }
   ],
   "routes": [

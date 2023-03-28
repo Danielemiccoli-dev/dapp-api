@@ -44,7 +44,9 @@ setInterval(async () => {
 }, 5000)
 
 module.exports = {
-  getClient: () => {
-    return client;
+  getResponse: async () => {
+      const isMintActive = await client.get('isMintActive');
+      const totalMinted = await client.get('total_minted');
+      return {'active': isMintActive, 'minted': totalMinted};
   }
 };

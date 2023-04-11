@@ -3,7 +3,7 @@ const contract = require('../contract/easyzoom.json')
 const Web3 = require('web3')
 const providerUrl = 'https://mainnet.infura.io/v3/ff526ca8ef12400d997abd0bd663bb00'
 const web3 = new Web3(providerUrl);
-const contractAddress = '0x8bcA6728966bE94907C4339965c45eE03cb25110'
+const contractAddress = '0x29332032e23CFbBFF816C6bF00069BCB8a94e14d'
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
 const isMintState = async () => {
   const test = await nftContract.methods.whitelistMintState().call()
